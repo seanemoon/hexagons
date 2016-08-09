@@ -8,7 +8,6 @@
 #include "util/managed.h"
 
 int main(int /* unused */, char** /* unused */) {
-
   //////////////////////////////////////////////////////////////////////////////
   // INITIALIZATION
   //////////////////////////////////////////////////////////////////////////////
@@ -48,6 +47,27 @@ int main(int /* unused */, char** /* unused */) {
   if (glewError != GLEW_OK) {
     std::cout << "Error inimtializing GLEW!" << std::endl;
   }
+
+  // Version information.
+  SDL_version compiled;
+  SDL_VERSION(&compiled);
+  std::cout
+    << "SDL version (compiled): "
+    << static_cast<uint>(compiled.major) << "."
+    << static_cast<uint>(compiled.minor) << "."
+    << static_cast<uint>(compiled.patch) << std::endl;
+
+  SDL_version linked;
+  SDL_GetVersion(&linked);
+  std::cout
+    << "SDL version (linked): "
+    << static_cast<uint>(linked.major) << "."
+    << static_cast<uint>(linked.minor) << "."
+    << static_cast<uint>(linked.patch) << std::endl;
+
+  std::cout << "GLEW version: " << glewGetString(GLEW_VERSION) << std::endl;
+  std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+
 
   // Our shader program.
   mgl::Program program;
