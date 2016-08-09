@@ -3,7 +3,8 @@ Dynamic visualizations using hexagons as the basic unit.
 
 ## Overview
 This project is the intersection of my interest in learning SDL2 and modern
-OpenGL with my interest in creating dynamic visualizations.
+OpenGL with my interest in creating dynamic visualizations. It is a work in
+progress (currently only drawing one hexagon to the screen).
 
 ## Planned Visualizations
 + Conway's Game of Life.
