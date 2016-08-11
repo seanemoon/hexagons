@@ -1,1 +1,5 @@
-https://www.opengl.org/wiki/Vertex_Specification_Best_Practices#Formatting_VBO_Data
+Best practices for vertex specification:
+https://www.opengl.org/wiki/Vertex_Specification_Best_Practices
+
+Best practices for hexagonal grids:
+http://www.redblobgames.com/grids/hexagons/
