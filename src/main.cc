@@ -6,6 +6,7 @@
 
 #include "mgl/mgl.h"
 #include "util/managed.h"
+#include "geo/hexagon.h"
 
 int main(int /* unused */, char** /* unused */) {
   //////////////////////////////////////////////////////////////////////////////
@@ -75,10 +76,13 @@ int main(int /* unused */, char** /* unused */) {
   // Compile and attach vertex shader to our shader program.
   mgl::Shader vertex_shader(GL_VERTEX_SHADER);
   vertex_shader.Source(
-    "#version 330\n"
-    "layout(location = 0) in vec2 position;\n"
+    "#version 330 core\n"
+    "layout(location = 1) in vec2 position;\n"
+    "layout(location = 2) in vec3 color;\n"
+    "out vec3 vertex_color;\n"
     "void main() {\n"
     "  gl_Position = vec4(position, 0.0, 1.0);\n"
+    "  vertex_color = color;\n"
     "}"
   );
   if (!vertex_shader.Compile()) {
@@ -92,10 +96,11 @@ int main(int /* unused */, char** /* unused */) {
   // Compile and attach fragment shader to our shader program.
   mgl::Shader fragment_shader(GL_FRAGMENT_SHADER);
   fragment_shader.Source(
-    "#version 330\n"
-    "layout(location = 0) out vec4 outColor;\n"
+    "#version 330 core\n"
+    "in vec3 vertex_color;\n"
+    "out vec4 color;\n"
     "void main() {\n"
-    "  outColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);\n"
+    "  color = vec4(vertex_color, 1.0f);\n"
     "}"
   );
   if (!fragment_shader.Compile()) {
@@ -123,42 +128,31 @@ int main(int /* unused */, char** /* unused */) {
   glGenVertexArrays(1, &vao);
   glBindVertexArray(vao);
 
-  // Vertex attribute array for the vertex shader.
-  mgl::VertexAttributeArray position(program, "position");
-
-  // Vertex buffer object (VBO);
-  mgl::Buffer<float> vbo(GL_ARRAY_BUFFER);
-  vbo.Bind();
-  {
-    float scale = 0.7f;
-    float a = 0.0f * scale;
-    float b = 0.5f * scale;
-    float c = 0.86602540378 * scale;  // sqrt(3)/2
-    float d = 1.0f * scale;
-    vbo.Data({
-       a,  d,
-       c,  b,
-       c, -b,
-       a, -d,
-      -c, -b,
-      -c,  b
-    });
-  }
-  vbo.Unbind();
-
-  // Index buffer object (IBO);
-  mgl::Buffer<uint> ibo(GL_ELEMENT_ARRAY_BUFFER);
-  ibo.Bind();
-  ibo.Data({
-    5, 1, 4,
-    4, 1, 2,
-    4, 2, 3,
-    5, 0, 1
-  });
-  ibo.Unbind();
+  mgl::VertexAttribute position_attr(program, "position");
+  mgl::VertexAttribute color_attr(program, "color");
 
   // Set the clear color.
   MGL_CALL(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
+
+  float s = 0.2f;
+  float w = 0.86602540378f;
+  float h = 1.73f * w;
+
+  geo::Hexagon red_hexagon(
+      0.0f, 0.0f,
+      0xFF, 0x00, 0x00,
+      s);
+
+  geo::Hexagon green_hexagon(
+      w*s, h*s,
+      0x00, 0xFF, 0x00,
+      s);
+
+  geo::Hexagon blue_hexagon(
+      -w*s, -h*s,
+      0x00, 0x00, 0xFF,
+      s);
+
 
   //////////////////////////////////////////////////////////////////////////////
   // Main Loop
@@ -183,16 +177,19 @@ int main(int /* unused */, char** /* unused */) {
 
     // Render baby's first hexagon.
     MGL_CALL(glClear(GL_COLOR_BUFFER_BIT));
+
     program.Use();
-    vbo.Bind();
-    ibo.Bind();
-    position.Enable();
-    position.Pointer(2, GL_FLOAT);
-    MGL_CALL(glDrawElements(GL_TRIANGLES, 12, GL_UNSIGNED_INT, nullptr));
-    position.Disable();
-    vbo.Unbind();
-    ibo.Unbind();
+    position_attr.Enable();
+    color_attr.Enable();
+
+    red_hexagon.Draw(&position_attr, &color_attr);
+    green_hexagon.Draw(&position_attr, &color_attr);
+    blue_hexagon.Draw(&position_attr, &color_attr);
+
+    position_attr.Disable();
+    color_attr.Disable();
     program.StopUsing();
+
     MGL_CALL(SDL_GL_SwapWindow(window.get()));
   }
 
