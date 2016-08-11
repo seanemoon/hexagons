@@ -1,4 +1,4 @@
-#include "mgl/attribute.h"
+#include "mgl/vertex_attribute.h"
 #include "mgl/buffer.h"
 #include "mgl/program.h"
 #include "mgl/shader.h"
