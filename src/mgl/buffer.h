@@ -24,6 +24,8 @@ class Buffer : private util::NonCopyable {
     MGL_CALL(glGenBuffers(1, &id_));
   }
 
+  Buffer(Buffer&& move) = default;
+
   void Bind() {
     if (is_bound_) {
       std::cout << "Trying to bind already bound buffer: "

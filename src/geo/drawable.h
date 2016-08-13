@@ -9,8 +9,10 @@ namespace geo {
 
 class Drawable : private util::NonCopyable {
  public:
+  Drawable() = default;
+  Drawable(Drawable&& other) = default;
   void Draw(mgl::VertexAttribute* position_attr,
-            mgl::VertexAttribute* color_attr);
+            mgl::VertexAttribute* color_attr) ;
 
  protected:
   mgl::ArrayBuffer<float> position_vbo_;

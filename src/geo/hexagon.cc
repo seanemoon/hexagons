@@ -5,21 +5,19 @@ namespace geo {
 Hexagon::Hexagon(
     float x, float y,
     uint8_t r, uint8_t g, uint8_t b,
-    float scale) {
+    float size) {
 
   position_vbo_.Bind();
   {
-    float a = 0.0f * scale;
-    float b = 0.5f * scale;
-    float c = 0.86602540378 * scale;  // sqrt(3)/2
-    float d = 1.0f * scale;
+    float h = kHeight/2 * size;
+    float w = kWidth/2 * size;
     position_vbo_.Data({
-      x+a, y+d,
-      x+c, y+b,
-      x+c, y-b,
-      x+a, y-d,
-      x-c, y-b,
-      x-c, y+b
+      x, y+h,
+      x+w, y+h/2,
+      x+w, y-h/2,
+      x, y-h,
+      x-w, y-h/2,
+      x-w, y+h/2
     }, 2);
     position_vbo_.Unbind();
   }

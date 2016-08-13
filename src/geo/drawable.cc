@@ -10,7 +10,7 @@ void Drawable::Draw(mgl::VertexAttribute* position_attr,
   position_vbo_.Unbind();
 
   color_vbo_.Bind();
-  color_attr->Pointer(color_vbo_);
+  color_attr->Pointer(color_vbo_, GL_TRUE);
   color_vbo_.Unbind();
 
   ibo_.Bind();

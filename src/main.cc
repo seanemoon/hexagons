@@ -134,25 +134,21 @@ int main(int /* unused */, char** /* unused */) {
   // Set the clear color.
   MGL_CALL(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 
-  float s = 0.2f;
-  float w = 0.86602540378f;
-  float h = 1.73f * w;
+  float s = 0.1f;
+  float h = geo::Hexagon::kVerticalSpacing * s;
+  float w = geo::Hexagon::kHorizontalSpacing * s;
 
-  geo::Hexagon red_hexagon(
-      0.0f, 0.0f,
-      0xFF, 0x00, 0x00,
-      s);
+  std::vector<geo::Hexagon> hexagons;
 
-  geo::Hexagon green_hexagon(
-      w*s, h*s,
-      0x00, 0xFF, 0x00,
-      s);
-
-  geo::Hexagon blue_hexagon(
-      -w*s, -h*s,
-      0x00, 0x00, 0xFF,
-      s);
-
+  for (int i = 0; i < 10; ++i) {
+    for (int j = 0; j < 10; ++j) {
+      float ofs = (j % 2 == 0) ? 0 : w/2;
+      hexagons.emplace_back(
+          -1.0 +  (1 + i)*w + ofs, -1.0 + (1+j)*h,
+          25.5*i, 25.5*j, 0,
+          s);
+    }
+  }
 
   //////////////////////////////////////////////////////////////////////////////
   // Main Loop
@@ -182,9 +178,9 @@ int main(int /* unused */, char** /* unused */) {
     position_attr.Enable();
     color_attr.Enable();
 
-    red_hexagon.Draw(&position_attr, &color_attr);
-    green_hexagon.Draw(&position_attr, &color_attr);
-    blue_hexagon.Draw(&position_attr, &color_attr);
+    for (auto& hexagon : hexagons) {
+      hexagon.Draw(&position_attr, &color_attr);
+    }
 
     position_attr.Disable();
     color_attr.Disable();

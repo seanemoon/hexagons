@@ -9,31 +9,38 @@ namespace geo {
 
 class Hexagon : public Drawable {
  public:
+  static constexpr const double kHeight = 2.0;
+  static constexpr const double kWidth = 1.73205080757;
+  static constexpr const double kVerticalSpacing = kHeight * 0.75;
+  static constexpr const double kHorizontalSpacing = kWidth;
+
   Hexagon(
       float x, float y,
       uint8_t r, uint8_t g, uint8_t b,
-      float scale = 1.0f);
+      float size = 1.0f);
+
+  Hexagon(Hexagon&& move) = default;
 
  private:
   static const uint kNumVertices = 7;
 
-  // These arrays hold vertex attributes for the hexagon.
-  // The diagram below shows which index corresponds to which index.
-  //            _0_
-  //         _-  |  -_
-  //      _-     |     -_
-  //    5        |        1
-  //    | -_     |     _- |
-  //    |    -_  |  _-    |
-  //    |       -6-       |
-  //    |    _-  |  -_    |
-  //    | _-     |     -_ |
-  //    4        |        2
-  //      -_     |     _-
-  //         -_  |  _-
-  //            -3-
-  std::array<float, kNumVertices> positions_;
-  std::array<uint8_t, kNumVertices> colors_;
+  //            _0_          ---      ---
+  //         _-  |  -_        |        |
+  //      _-     |     -_     |        |
+  //    5        |        1   | size   |
+  //    | -_     |     _- |   |        |
+  //    |    -_  |  _-    |   |        |
+  //    |       -6-       |  ---       | height
+  //    |    _-  |  -_    |            |
+  //    | _-     |     -_ |            |
+  //    4        |        2            |
+  //      -_     |     _-              |
+  //         -_  |  _-                 |
+  //            -3-                   ---
+  //
+  //    |-----------------|
+  //           width
+  //
 };
 
 
