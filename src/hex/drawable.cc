@@ -1,6 +1,6 @@
-#include "geo/drawable.h"
+#include "hex/drawable.h"
 
-namespace geo {
+namespace hex {
 
 void Drawable::Draw(mgl::VertexAttribute* position_attr,
                     mgl::VertexAttribute* color_attr) {
@@ -19,4 +19,4 @@ void Drawable::Draw(mgl::VertexAttribute* position_attr,
   ibo_.Unbind();
 }
 
-}  // namespace geo
+}  // namespace hex

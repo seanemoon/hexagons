@@ -1,11 +1,11 @@
-#ifndef GEO_DRAWABLE_H_
-#define GEO_DRAWABLE_H_
+#ifndef HEX_DRAWABLE_H_
+#define HEX_DRAWABLE_H_
 
 #include "mgl/mgl.h"
 
 #include "util/noncopyable.h"
 
-namespace geo {
+namespace hex {
 
 class Drawable : private util::NonCopyable {
  public:
@@ -20,6 +20,6 @@ class Drawable : private util::NonCopyable {
   mgl::ElementArrayBuffer<uint> ibo_;
 };
 
-}  // namespace geo
+}  // namespace hex
 
-#endif  // GEO_DRAWABLE_H_
+#endif  // HEX_DRAWABLE_H_

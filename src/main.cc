@@ -3,10 +3,14 @@
 #include <functional>
 #include <memory>
 #include <iostream>
+#include <algorithm>
+#include <chrono>
+#include <thread>
 
 #include "mgl/mgl.h"
 #include "util/managed.h"
-#include "geo/hexagon.h"
+#include "hex/hexagon.h"
+#include "hex/util.h"
 
 int main(int /* unused */, char** /* unused */) {
   //////////////////////////////////////////////////////////////////////////////
@@ -134,22 +138,10 @@ int main(int /* unused */, char** /* unused */) {
   // Set the clear color.
   MGL_CALL(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 
-  float s = 0.1f;
-  float h = geo::Hexagon::kVerticalSpacing * s;
-  float w = geo::Hexagon::kHorizontalSpacing * s;
 
-  std::vector<geo::Hexagon> hexagons;
+  auto hexagons = hex::util::CreateHexagonalGrid(5, 0.1);
 
-  for (int i = 0; i < 10; ++i) {
-    for (int j = 0; j < 10; ++j) {
-      float ofs = (j % 2 == 0) ? 0 : w/2;
-      hexagons.emplace_back(
-          -1.0 +  (1 + i)*w + ofs, -1.0 + (1+j)*h,
-          25.5*i, 25.5*j, 0,
-          s);
-    }
-  }
-
+  int n = 1;
   //////////////////////////////////////////////////////////////////////////////
   // Main Loop
   //////////////////////////////////////////////////////////////////////////////
@@ -170,6 +162,10 @@ int main(int /* unused */, char** /* unused */) {
         }
       }
     }
+
+    n = (n + 1) % 20;
+    std::this_thread::sleep_for(std::chrono::milliseconds(20));
+    auto hexagons = hex::util::CreateHexagonalGrid(n, 0.05);
 
     // Render baby's first hexagon.
     MGL_CALL(glClear(GL_COLOR_BUFFER_BIT));

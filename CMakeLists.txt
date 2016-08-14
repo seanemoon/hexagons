@@ -5,12 +5,12 @@ SET(CMAKE_CXX_STANDARD 11)
 FILE(GLOB src_glob src/*.cc)
 FILE(GLOB src_mgl_glob src/mgl/*.cc)
 FILE(GLOB src_util_glob src/uti/*.cc)
-FILE(GLOB src_geo_glob src/geo/*.cc)
+FILE(GLOB src_hex_glob src/hex/*.cc)
 ADD_EXECUTABLE(main 
   ${src_glob}
   ${src_mgl_glob}
   ${src_util_glob}
-  ${src_geo_glob})
+  ${src_hex_glob})
 
 INCLUDE_DIRECTORIES(src/)
 INCLUDE_DIRECTORIES(src/mgl)

@@ -1,6 +1,6 @@
-#include "geo/hexagon.h"
+#include "hex/hexagon.h"
 
-namespace geo {
+namespace hex {
 
 Hexagon::Hexagon(
     float x, float y,
@@ -44,4 +44,4 @@ Hexagon::Hexagon(
 }
 
 
-}  // namespace geo
+}  // namespace hex
