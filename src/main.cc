@@ -141,7 +141,7 @@ int main(int /* unused */, char** /* unused */) {
 
   auto hexagons = hex::util::CreateHexagonalGrid(5, 0.1);
 
-  int n = 1;
+  // int n = 1;
   //////////////////////////////////////////////////////////////////////////////
   // Main Loop
   //////////////////////////////////////////////////////////////////////////////
@@ -163,9 +163,11 @@ int main(int /* unused */, char** /* unused */) {
       }
     }
 
+    /*
     n = (n + 1) % 20;
     std::this_thread::sleep_for(std::chrono::milliseconds(20));
     auto hexagons = hex::util::CreateHexagonalGrid(n, 0.05);
+    */
 
     // Render baby's first hexagon.
     MGL_CALL(glClear(GL_COLOR_BUFFER_BIT));

@@ -1,25 +1,75 @@
 #ifndef HEX_HEXAGON_H_
 #define HEX_HEXAGON_H_
 
-#include "hex/drawable.h"
+#include "hex/coords.h"
+#include "mgl/buffer.h"
+#include "mgl/vertex_attribute.h"
 
 #include <array>
 
 namespace hex {
 
-class Hexagon : public Drawable {
+class Hexagon : private util::NonCopyable {
  public:
-  static constexpr const double kHeight = 2.0;
-  static constexpr const double kWidth = 1.73205080757;
-  static constexpr const double kVerticalSpacing = kHeight * 0.75;
-  static constexpr const double kHorizontalSpacing = kWidth;
+  // Construct a new hexagon.
+  // `coord` a screen coordinate.
+  // `size` is the maximal radius (R).
+  Hexagon(PixelCoord coord, float size);
 
-  Hexagon(
-      float x, float y,
-      uint8_t r, uint8_t g, uint8_t b,
-      float size = 1.0f);
+  // Set the screen coordinate of the hexagon.
+  void SetPixelCoord(PixelCoord coord);
 
-  Hexagon(Hexagon&& move) = default;
+  // Set the color of the hexagon.
+  void SetColor(uint8_t r, uint8_t g, uint8_t b);
+
+  // Set the size of the hexagon.
+  // `size` is the new maximal radius (R).
+  void SetSize(float size);
+
+  // Make OpenGL calls to draw this hexagon to the screen.
+  // This will call the UpdateOpenGL* functions before attempting to draw if
+  // their associateed buffer is dirty.
+  void Draw(mgl::VertexAttribute* position, mgl::VertexAttribute* color);
+
+ private:
+  // Update the position VBO.
+  // This is automatically called by Draw if the position VBO is dirty.
+  void UpdateOpenGLPositions();
+
+  // Update the color VBO.
+  // This is automatically called by Draw if the color VBO is dirty.
+  void UpdateOpenGLColors();
+
+  // Update the IBO.
+  // This is automatically called by Draw if the IBO is dirty.
+  void UpdateOpenGLIndices();
+
+  // Screen coordinate.
+  PixelCoord coord_;
+
+  // Equivalent to the maximal radius (R).
+  float size_;
+
+  // Red color value in the range [0, 255]
+  uint8_t r_;
+
+  // Green color value in the range [0, 255]
+  uint8_t g_;
+
+  // Green color value in the range [0, 255]
+  uint8_t b_;
+
+  // Position VBO and flag indicating whether it is dirty.
+  bool position_is_dirty_;
+  mgl::ArrayBuffer<float> position_vbo_;
+
+  // Color VBO and flag indicating whether it is dirty.
+  bool color_is_dirty_;
+  mgl::ArrayBuffer<uint8_t> color_vbo_;
+
+  // IBO and flag indicating whether it is dirty.
+  bool index_is_dirty_;
+  mgl::ElementArrayBuffer<uint> ibo_;
 };
 
 
