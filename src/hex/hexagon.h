@@ -9,6 +9,8 @@
 
 namespace hex {
 
+
+// Responsible for hexagons which are rendered to the screen.
 class Hexagon : private util::NonCopyable {
  public:
   // Construct a new hexagon.
@@ -29,11 +31,11 @@ class Hexagon : private util::NonCopyable {
   // Make OpenGL calls to draw this hexagon to the screen.
   // This will call the UpdateOpenGL* functions before attempting to draw if
   // their associateed buffer is dirty.
-  void Draw(mgl::VertexAttribute* position, mgl::VertexAttribute* color);
+  void Render(mgl::VertexAttribute* position, mgl::VertexAttribute* color);
 
  private:
   // Update the position VBO.
-  // This is automatically called by Draw if the position VBO is dirty.
+  // This is automatically called by Render if the position VBO is dirty.
   void UpdateOpenGLPositions();
 
   // Update the color VBO.

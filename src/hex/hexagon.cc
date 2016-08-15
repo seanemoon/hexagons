@@ -3,6 +3,7 @@
 
 namespace hex {
 
+
 Hexagon::Hexagon(PixelCoord coord, float size)
   : coord_{coord},
     size_{size},
@@ -77,9 +78,8 @@ void Hexagon::UpdateOpenGLIndices() {
   index_is_dirty_ = false;
 }
 
-
-void Hexagon::Draw(mgl::VertexAttribute* position, mgl::VertexAttribute*
-    color) {
+void Hexagon::Render(
+    mgl::VertexAttribute* position, mgl::VertexAttribute* color) {
   if (position_is_dirty_) UpdateOpenGLPositions();
   if (color_is_dirty_) UpdateOpenGLColors();
   if (index_is_dirty_) UpdateOpenGLIndices();
@@ -96,5 +96,6 @@ void Hexagon::Draw(mgl::VertexAttribute* position, mgl::VertexAttribute*
   MGL_CALL(glDrawElements(GL_TRIANGLES, ibo_.Size(), ibo_.Type(), nullptr));
   ibo_.Unbind();
 }
+
 
 }  // namespace hex
