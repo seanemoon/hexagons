@@ -77,6 +77,8 @@ class AxialCoord {
 
 class PixelCoord {
  public:
+  PixelCoord(double x, double y) : x{x}, y{y} {}
+
   template<typename T>
   PixelCoord(CubeCoord<T> o)
     : x{kMinimalDiameter*(o.x+0.5*o.y)},

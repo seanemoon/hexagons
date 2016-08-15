@@ -11,6 +11,7 @@
 #include "util/managed.h"
 #include "hex/hexagon.h"
 #include "hex/axial_grid.h"
+#include "algo/life.h"
 
 int main(int /* unused */, char** /* unused */) {
   //////////////////////////////////////////////////////////////////////////////
@@ -139,7 +140,8 @@ int main(int /* unused */, char** /* unused */) {
   MGL_CALL(glClearColor(0.0f, 0.0f, 0.0f, 1.0f));
 
 
-  hex::AxialGrid grid(5, 0.1);
+  algo::life::Rules rules({2}, {3, 4});
+  algo::life::Simulation simulation(20, rules);
 
   // int n = 1;
   //////////////////////////////////////////////////////////////////////////////
@@ -163,31 +165,22 @@ int main(int /* unused */, char** /* unused */) {
       }
     }
 
-
-    // Render baby's first hexagon.
     MGL_CALL(glClear(GL_COLOR_BUFFER_BIT));
 
     program.Use();
     position_attr.Enable();
     color_attr.Enable();
 
-    hex::Hexagon* center = grid.Data()[hex::AxialCoord<int>(0, 0)].get();
-    center->SetColor(0x00, 0x00, 0xFF);
-    center->Render(&position_attr, &color_attr);
-    for (const auto& n: grid.Neighbors(hex::AxialCoord<int>(0, 0))) {
-      n.second->SetColor(0xFF, 0x00, 0x00);
-      n.second->Render(&position_attr, &color_attr);
-      MGL_CALL(SDL_GL_SwapWindow(window.get()));
-      std::this_thread::sleep_for(std::chrono::milliseconds(100));
-      n.second->SetColor(0x22, 0x22, 0x22);
-      n.second->Render(&position_attr, &color_attr);
-    }
+    simulation.Step();
+    simulation.Render(&position_attr, &color_attr);
 
     position_attr.Disable();
     color_attr.Disable();
     program.StopUsing();
 
     MGL_CALL(SDL_GL_SwapWindow(window.get()));
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
   }
 
   SDL_Quit();

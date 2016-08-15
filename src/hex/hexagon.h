@@ -13,6 +13,8 @@ namespace hex {
 // Responsible for hexagons which are rendered to the screen.
 class Hexagon : private util::NonCopyable {
  public:
+  Hexagon();
+
   // Construct a new hexagon.
   // `coord` a screen coordinate.
   // `size` is the maximal radius (R).
@@ -33,7 +35,7 @@ class Hexagon : private util::NonCopyable {
   // their associateed buffer is dirty.
   void Render(mgl::VertexAttribute* position, mgl::VertexAttribute* color);
 
- private:
+ protected:
   // Update the position VBO.
   // This is automatically called by Render if the position VBO is dirty.
   void UpdateOpenGLPositions();

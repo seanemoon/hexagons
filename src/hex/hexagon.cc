@@ -3,6 +3,7 @@
 
 namespace hex {
 
+Hexagon::Hexagon() : Hexagon({0.0, 0.0}, 0.0f) {}
 
 Hexagon::Hexagon(PixelCoord coord, float size)
   : coord_{coord},

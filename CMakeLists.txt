@@ -6,11 +6,13 @@ FILE(GLOB src_glob src/*.cc)
 FILE(GLOB src_mgl_glob src/mgl/*.cc)
 FILE(GLOB src_util_glob src/uti/*.cc)
 FILE(GLOB src_hex_glob src/hex/*.cc)
+FILE(GLOB src_algo_glob src/algo/*.cc)
 ADD_EXECUTABLE(main 
   ${src_glob}
   ${src_mgl_glob}
   ${src_util_glob}
-  ${src_hex_glob})
+  ${src_hex_glob}
+  ${src_algo_glob})
 
 INCLUDE_DIRECTORIES(src/)
 INCLUDE_DIRECTORIES(src/mgl)
