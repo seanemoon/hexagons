@@ -6,6 +6,9 @@ This project is the intersection of my interest in learning SDL2 and modern
 OpenGL with my interest in creating dynamic visualizations. It is a work in
 progress (currently only drawing one hexagon to the screen).
 
+## Implemented Visualizations
++ Conway's Game of Life.
+
 ## Planned Visualizations
 + Conway's Game of Life.
 + Music visualizer.
